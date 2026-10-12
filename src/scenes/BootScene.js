@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { makeSprites } from '../gfx/sprites.js';
 import { audio } from '../audio/AudioManager.js';
+import { FONT } from '../ui.js';
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -8,8 +9,6 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    // Внешние треки подхватываются, если файлы есть в assets/music.
-    // Если файла нет, AudioManager использует встроенную мелодию.
     this.load.audio('town', 'assets/music/town.ogg');
     this.load.audio('battle', 'assets/music/battle.ogg');
     this.load.audio('ending_good', 'assets/music/ending_good.ogg');
@@ -22,6 +21,12 @@ export class BootScene extends Phaser.Scene {
   create() {
     makeSprites(this);
     audio.init(this);
-    this.scene.start('Menu');
+    const go = () => this.scene.start('Menu');
+    // Ждём шрифт, чтобы текст сразу был в нужном виде.
+    if (document.fonts) {
+      document.fonts.load(`16px ${FONT}`).then(go, go);
+    } else {
+      go();
+    }
   }
 }
