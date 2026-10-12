@@ -1,16 +1,17 @@
 import Phaser from 'phaser';
 import { audio } from '../audio/AudioManager.js';
 import { save } from '../save.js';
+import { style } from '../ui.js';
 
 const ENDINGS = {
   good: {
-    title: 'Рассвет',
-    text: 'Тени отступили. Лес снова дышит, а ты знаешь, что этот путь ещё не закончен.',
+    title: 'РАССВЕТ',
+    text: 'Тени отступили. Лес снова дышит, а путь ещё не закончен.',
     music: 'ending_good'
   },
   bad: {
-    title: 'Тишина',
-    text: 'Ты падаешь, и лес смыкается над тобой. Иногда проигрыш тоже что-то объясняет.',
+    title: 'ТИШИНА',
+    text: 'Лес смыкается над тобой. Иногда проигрыш тоже что-то объясняет.',
     music: 'ending_bad'
   }
 };
@@ -29,18 +30,15 @@ export class EndingScene extends Phaser.Scene {
     const e = ENDINGS[this.type];
     this.cameras.main.setBackgroundColor('#000000');
 
-    this.add.text(width / 2, height / 2 - 40, e.title, {
-      fontFamily: 'monospace', fontSize: '26px', color: '#f0c040'
-    }).setOrigin(0.5);
+    this.add.text(width / 2, 70, e.title, style(24, '#f0c040')).setOrigin(0.5);
+    this.add.text(width / 2, 120, e.text, style(12, '#ffffff', {
+      align: 'center',
+      wordWrap: { width: width - 60 },
+      lineSpacing: 4
+    })).setOrigin(0.5, 0);
 
-    this.add.text(width / 2, height / 2, e.text, {
-      fontFamily: 'monospace', fontSize: '10px', color: '#ffffff',
-      align: 'center', wordWrap: { width: width - 60 }
-    }).setOrigin(0.5);
-
-    this.add.text(width / 2, height - 24, 'Тап, чтобы вернуться в меню', {
-      fontFamily: 'monospace', fontSize: '10px', color: '#888888'
-    }).setOrigin(0.5);
+    this.add.text(width / 2, height - 24, 'Тап, чтобы вернуться в меню', style(8, '#888888'))
+      .setOrigin(0.5);
 
     audio.play(e.music);
     this.input.once('pointerdown', () => {
