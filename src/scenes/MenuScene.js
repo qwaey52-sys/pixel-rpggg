@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { audio } from '../audio/AudioManager.js';
 import { save } from '../save.js';
+import { style } from '../ui.js';
 
 export class MenuScene extends Phaser.Scene {
   constructor() {
@@ -11,9 +12,7 @@ export class MenuScene extends Phaser.Scene {
     const { width, height } = this.scale;
     this.cameras.main.setBackgroundColor('#101020');
 
-    this.add.text(width / 2, 40, 'PIXEL RPG', {
-      fontFamily: 'monospace', fontSize: '28px', color: '#f0c040'
-    }).setOrigin(0.5);
+    this.add.text(width / 2, 60, 'PIXEL RPG', style(24, '#f0c040')).setOrigin(0.5);
 
     const hasSave = !!localStorage.getItem('pixel-rpg-save-v1');
     const items = [
@@ -22,15 +21,14 @@ export class MenuScene extends Phaser.Scene {
     ];
 
     items.forEach((item, i) => {
-      const t = this.add.text(width / 2, 90 + i * 28, item.label, {
-        fontFamily: 'monospace', fontSize: '18px', color: '#ffffff'
-      }).setOrigin(0.5).setInteractive({ useHandCursor: true });
-      t.on('pointerdown', item.action);
+      this.add.text(width / 2, 120 + i * 30, item.label, style(16))
+        .setOrigin(0.5)
+        .setInteractive({ useHandCursor: true })
+        .on('pointerdown', item.action);
     });
 
-    this.add.text(width / 2, height - 14, 'Тап по экрану, чтобы начать звук', {
-      fontFamily: 'monospace', fontSize: '10px', color: '#888888'
-    }).setOrigin(0.5);
+    this.add.text(width / 2, height - 20, 'Тап по экрану, чтобы включить звук', style(8, '#888888'))
+      .setOrigin(0.5);
 
     audio.play('town');
   }
