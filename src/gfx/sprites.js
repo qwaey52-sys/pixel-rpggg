@@ -131,11 +131,11 @@ const HEART = [
 ];
 
 export function makeSprites(scene) {
-  drawPixelArt(scene, 'player', PLAYER);
-  drawPixelArt(scene, 'npc', NPC);
-  drawPixelArt(scene, 'enemy', ENEMY);
-  drawPixelArt(scene, 'tile_grass', TILE_GRASS);
-  drawPixelArt(scene, 'tile_path', TILE_PATH.map(r => r.padEnd(12, 'd').slice(0, 12)));
-  drawPixelArt(scene, 'tile_wall', TILE_WALL);
-  drawPixelArt(scene, 'heart', HEART);
+  drawPixelArt(scene, 'player', PLAYER, 2);
+  drawPixelArt(scene, 'npc', NPC, 2);
+  drawPixelArt(scene, 'enemy', ENEMY, 3);
+  drawPixelArt(scene, 'tile_grass', TILE_GRASS, 2);
+  drawPixelArt(scene, 'tile_path', TILE_PATH.map(r => r.padEnd(12, 'd').slice(0, 12)), 2);
+  drawPixelArt(scene, 'tile_wall', TILE_WALL, 2);
+  drawPixelArt(scene, 'heart', HEART, 2);
 }
