@@ -1,0 +1,8 @@
+{
+  "appId": "com.example.pixelrpg",
+  "appName": "Pixel RPG",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": false
+  }
+}
