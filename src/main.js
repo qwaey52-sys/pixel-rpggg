@@ -11,13 +11,13 @@ const config = {
   parent: 'game',
   backgroundColor: '#000000',
   pixelArt: true,
+  antialias: false,
   roundPixels: true,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     width: 320,
-    height: 180,
-    orientation: Phaser.Scale.LANDSCAPE
+    height: 240
   },
   physics: {
     default: 'arcade',
