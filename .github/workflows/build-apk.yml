@@ -18,7 +18,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
       - uses: actions/setup-java@v4
         with:
@@ -31,33 +30,18 @@ jobs:
       - name: Build web bundle
         run: npm run build
 
-      - name: Add Android platform (once)
-        run: |
-          if [ ! -d android ]; then
-            npx cap add android
-          fi
+      - name: Add Android platform
+        run: npx cap add android
 
       - name: Force landscape orientation
         run: |
-          MANIFEST=android/app/src/main/AndroidManifest.xml
-          if ! grep -q 'screenOrientation' "$MANIFEST"; then
-            sed -i 's/<activity/<activity android:screenOrientation="sensorLandscape"/' "$MANIFEST"
-          fi
-
-      - name: Sync Capacitor
-        run: npx cap sync android
-
-      - name: Build debug APK
-        working-directory: android
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug
-
-      - name: Rename APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk pixel-rpg.apk
-
-      - name: Create release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: pixel-rpg.apk
-          generate_release_notes: true
+          python3 - << 'EOF'
+          import re
+          path = "android/app/src/main/AndroidManifest.xml"
+          with open(path, encoding="utf-8") as f:
+              xml = f.read()
+          if "screenOrientation" not in xml:
+              xml = re.sub(r"<activity(\s)", r'<activity android:screenOrientation="sensorLandscape"\1', xml, count=1)
+              with open(path, "w", encoding="utf-8") as f:
+                  f.write(xml)
+          print("Manifest
