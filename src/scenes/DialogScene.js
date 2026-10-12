@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { style } from '../ui.js';
 
 export class DialogScene extends Phaser.Scene {
   constructor() {
@@ -13,12 +14,17 @@ export class DialogScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale;
-    this.box = this.add.rectangle(width / 2, height - 36, width - 16, 56, 0x000000, 0.85)
-      .setStrokeStyle(1, 0xffffff);
-    this.text = this.add.text(16, height - 60, '', {
-      fontFamily: 'monospace', fontSize: '10px', color: '#ffffff', wordWrap: { width: width - 32 }
-    });
-    this.add.text(width - 20, height - 16, '▼', { fontFamily: 'monospace', fontSize: '10px', color: '#f0c040' });
+
+    this.add.rectangle(width / 2, height - 40, width - 16, 76, 0x000000, 0.9)
+      .setStrokeStyle(2, 0xffffff)
+      .setScrollFactor(0);
+
+    this.text = this.add.text(20, height - 72, '', style(16, '#ffffff', {
+      wordWrap: { width: width - 40 },
+      lineSpacing: 4
+    }));
+
+    this.add.text(width - 20, height - 22, '>', style(8, '#f0c040'));
 
     this.showLine();
     this.input.on('pointerdown', () => this.next());
